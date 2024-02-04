@@ -5,10 +5,10 @@ import hexlet.code.schemas.StringSchema;
 
 public class Validator {
     public StringSchema string() {
-        return new StringSchema();
+        return new StringSchema(this);
     }
 
     public NumberSchema number() {
-        return new NumberSchema();
+        return new NumberSchema(this);
     }
 }

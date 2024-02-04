@@ -1,63 +1,24 @@
 package hexlet.code.schemas;
 
-import java.util.Objects;
+import hexlet.code.Validator;
 
-public class StringSchema  {
-    private boolean required;
-    private int minLength;
-    private String contains;
+public class StringSchema extends BaseSchema<String> {
+    public StringSchema(Validator validator) {
+        super(validator);
+    }
+
     public StringSchema required() {
-        this.required = !this.required;
+        super.addCheck(value -> value != null && !value.isEmpty());
         return this;
     }
 
-    public StringSchema minLength(int num) {
-        this.minLength = num;
+    public StringSchema minLength(int minLength) {
+        super.addCheck(value -> value.length() >= minLength);
         return this;
     }
 
-    public StringSchema contains(String letters) {
-        this.contains = letters;
+    public StringSchema contains(String substring) {
+        super.addCheck(value -> value.contains(substring));
         return this;
-    }
-
-    public boolean isValid(Object o) {
-        if (!(o instanceof String) && o != null) {
-            return false;
-        }
-
-        if (this.required && (o == null || ((String) o).isEmpty())) {
-            return false;
-        }
-
-        if (this.contains != null && !((String) o).contains(this.contains)) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isRequired() {
-        return required;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        StringSchema schema = (StringSchema) o;
-        return required == schema.required
-                && minLength == schema.minLength
-                && Objects.equals(contains, schema.contains);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(required, minLength, contains);
     }
 }

@@ -1,13 +1,10 @@
 package hexlet.code;
 
 import hexlet.code.schemas.StringSchema;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StringSchemaTest {
@@ -22,43 +19,31 @@ public class StringSchemaTest {
 
     @Test
     @Order(1)
-    void checkNull() {
-        var actual = schema.isValid(null);
-        assertThat(actual).isTrue();
+    public void testRequired() {
+        StringSchema schema = validator.string().required();
+
+        assertTrue(schema.isValid("Hello"));
+        assertFalse(schema.isValid(null));
+        assertFalse(schema.isValid(""));
     }
 
     @Test
     @Order(2)
-    void checkEmptyString() {
-        var actual = schema.isValid("");
-        assertThat(actual).isTrue();
+    public void testMinLength() {
+        StringSchema schema = validator.string().required().minLength(5);
+
+        assertTrue(schema.isValid("This is a string"));
+        assertFalse(schema.isValid("abc"));
+        assertFalse(schema.isValid(""));
     }
 
     @Test
     @Order(3)
-    void checkRequired() {
-        var actual =  schema.required().isRequired();
-        assertThat(actual).isTrue();
-    }
+    public void testContains() {
+        StringSchema schema = validator.string().required().contains("hex");
 
-    @Test
-    @Order(4)
-    void checkNullEmptyAfterRequired() {
-        var actual = schema.isValid(null);
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    @Order(5)
-    void checkEmptyStringAfterRequired() {
-        var actual = schema.isValid("hexlet");
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    @Order(6)
-    void checkStringContainsAfterRequired() {
-        var actual = schema.contains("wh").isValid("what does the fox say");
-        assertThat(actual).isTrue();
+        assertTrue(schema.isValid("This is a hex string"));
+        assertFalse(schema.isValid("This is a string"));
+        assertFalse(schema.isValid(""));
     }
 }

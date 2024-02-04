@@ -1,48 +1,24 @@
 package hexlet.code.schemas;
 
-import hexlet.code.Range;
+import hexlet.code.Validator;
 
-public class NumberSchema  {
-    private boolean required;
-    private boolean positive;
-    private Range range;
-
-    public NumberSchema() {
-        this.required = false;
-        this.positive = false;
-        this.range = null;
-    }
-
-    public boolean isValid(Object value) {
-        if (value == null) {
-            if (required) {
-                return false;
-            }
-        } else if (value instanceof Number) {
-            if (positive && ((Number) value).intValue() <= 0) {
-                return false;
-            }
-            if (range != null && !range.contains((Number) value)) {
-                return false;
-            }
-        } else {
-            return false;
-        }
-        return true;
+public class NumberSchema extends BaseSchema<Number>  {
+    public NumberSchema(Validator validator) {
+        super(validator);
     }
 
     public NumberSchema required() {
-        this.required = !this.required;
+        super.addCheck(value -> value != null);
         return this;
     }
 
     public NumberSchema positive() {
-        this.positive = true;
+        super.addCheck(value -> value instanceof Integer && (Integer) value > 0);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-        this.range = new Range(min,max);
+        super.addCheck(value -> value instanceof Integer && (Integer) value >= min && (Integer) value <= max);
         return this;
     }
 }
