@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import hexlet.code.Validator;
 
-public class NumberSchema extends BaseSchema<Number>  {
+public class NumberSchema extends BaseSchema<Number> {
     public NumberSchema(Validator validator) {
         super(validator);
     }
