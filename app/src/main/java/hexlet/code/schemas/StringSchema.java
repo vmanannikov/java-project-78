@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 import java.util.Objects;
 
-public class StringSchema {
+public class StringSchema  {
     private boolean required;
     private int minLength;
     private String contains;
