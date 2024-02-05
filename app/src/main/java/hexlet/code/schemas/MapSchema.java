@@ -1,14 +1,8 @@
 package hexlet.code.schemas;
 
-import hexlet.code.Validator;
-
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map<String, Object>> {
-
-    public MapSchema(Validator validator) {
-        super(validator);
-    }
+public class MapSchema<String, T> extends BaseSchema<Map<String, T>> {
 
     public MapSchema required() {
         super.addCheck(value -> value != null);
@@ -27,6 +21,19 @@ public class MapSchema extends BaseSchema<Map<String, Object>> {
 
     public MapSchema value(String key, BaseSchema schema) {
         super.addCheck(value -> value.containsKey(key) && schema.isValid(value.get(key)));
+        return this;
+    }
+
+    public MapSchema shape(Map<String, BaseSchema> schemas) {
+        super.addCheck(value -> {
+            for (Map.Entry<String, BaseSchema> entry : schemas.entrySet()) {
+                Object keyValue = value.get(entry.getKey());
+                if (!entry.getValue().isValid(keyValue)) {
+                    return false;
+                }
+            }
+            return true;
+        });
         return this;
     }
 }

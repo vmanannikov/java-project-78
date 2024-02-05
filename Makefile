@@ -18,6 +18,9 @@ report:
 lint:
 	make -C app lint
 
+validator:
+	make -C app validator
+
 build-run: build run
 
 .PHONY: build

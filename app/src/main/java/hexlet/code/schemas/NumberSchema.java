@@ -1,11 +1,6 @@
 package hexlet.code.schemas;
 
-import hexlet.code.Validator;
-
 public class NumberSchema extends BaseSchema<Number> {
-    public NumberSchema(Validator validator) {
-        super(validator);
-    }
 
     public NumberSchema required() {
         super.addCheck(value -> value != null);

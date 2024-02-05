@@ -1,11 +1,6 @@
 package hexlet.code.schemas;
 
-import hexlet.code.Validator;
-
 public class StringSchema extends BaseSchema<String> {
-    public StringSchema(Validator validator) {
-        super(validator);
-    }
 
     public StringSchema required() {
         super.addCheck(value -> value != null && !value.isEmpty());
