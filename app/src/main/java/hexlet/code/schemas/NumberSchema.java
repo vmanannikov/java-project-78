@@ -8,12 +8,12 @@ public class NumberSchema extends BaseSchema<Integer> {
     }
 
     public NumberSchema positive() {
-        super.addCheck(value -> value > 0);
+        super.addCheck(value -> value == null || value > 0);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-        super.addCheck(value -> value >= min && value <= max);
+        super.addCheck(value -> value == null || value >= min && value <= max);
         return this;
     }
 }
