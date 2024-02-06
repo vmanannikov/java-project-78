@@ -1,6 +1,6 @@
 package hexlet.code.schemas;
 
-public class NumberSchema extends BaseSchema<Number> {
+public class NumberSchema extends BaseSchema<Integer> {
 
     public NumberSchema required() {
         super.addCheck(value -> value != null);
@@ -8,12 +8,12 @@ public class NumberSchema extends BaseSchema<Number> {
     }
 
     public NumberSchema positive() {
-        super.addCheck(value -> (Integer) value > 0);
+        super.addCheck(value -> value > 0);
         return this;
     }
 
     public NumberSchema range(int min, int max) {
-        super.addCheck(value -> (Integer) value >= min && (Integer) value <= max);
+        super.addCheck(value -> value >= min && value <= max);
         return this;
     }
 }
