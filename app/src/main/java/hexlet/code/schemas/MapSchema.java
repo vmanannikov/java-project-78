@@ -14,20 +14,10 @@ public final class MapSchema<String, T> extends BaseSchema<Map<String, T>> {
         return this;
     }
 
-    public MapSchema key(String key) {
-        super.addCheck(value -> value.containsKey(key));
-        return this;
-    }
-
-    public MapSchema value(String key, BaseSchema schema) {
-        super.addCheck(value -> value.containsKey(key) && schema.isValid(value.get(key)));
-        return this;
-    }
-
-    public MapSchema shape(Map<String, BaseSchema> schemas) {
+    public MapSchema shape(Map<String, BaseSchema<T>> schemas) {
         super.addCheck(value -> {
-            for (Map.Entry<String, BaseSchema> entry : schemas.entrySet()) {
-                Object keyValue = value.get(entry.getKey());
+            for (Map.Entry<String, BaseSchema<T>> entry : schemas.entrySet()) {
+                T keyValue = value.get(entry.getKey());
                 if (!entry.getValue().isValid(keyValue)) {
                     return false;
                 }

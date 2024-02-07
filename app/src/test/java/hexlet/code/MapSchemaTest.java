@@ -44,30 +44,10 @@ public class MapSchemaTest {
 
     @Test
     @Order(3)
-    public void testKeyExists() {
-        MapSchema mapSchema = validator.map().required().key("name");
-
-        assertTrue(mapSchema.isValid(Map.of("name", "John Doe")));
-        assertFalse(mapSchema.isValid(Map.of("age", 30)));
-        assertFalse(mapSchema.isValid(null));
-    }
-
-    @Test
-    @Order(4)
-    public void testValueIsValid() {
-        MapSchema mapSchema = validator.map().required().value("name", validator.string().required());
-
-        assertTrue(mapSchema.isValid(Map.of("name", "John Doe")));
-        assertFalse(mapSchema.isValid(Map.of("age", "John Doe")));
-        assertFalse(mapSchema.isValid(null));
-    }
-
-    @Test
-    @Order(5)
     public void testShape() {
         MapSchema mapSchema = validator.map().required();
 
-        Map<String, BaseSchema> schemas = new HashMap<>();
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
         schemas.put("firstName", validator.string().required());
         schemas.put("lastName", validator.string().required().minLength(2));
         mapSchema.shape(schemas);

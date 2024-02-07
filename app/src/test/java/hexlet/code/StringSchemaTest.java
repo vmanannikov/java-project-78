@@ -22,7 +22,12 @@ public class StringSchemaTest {
     @Test
     @Order(1)
     public void testRequired() {
-        StringSchema schema = validator.string().required();
+        StringSchema schema = validator.string();
+
+        assertTrue(schema.isValid(null));
+        assertTrue(schema.isValid(""));
+
+        schema.required();
 
         assertTrue(schema.isValid("Hello"));
         assertFalse(schema.isValid(null));
@@ -47,5 +52,14 @@ public class StringSchemaTest {
         assertTrue(schema.isValid("This is a hex string"));
         assertFalse(schema.isValid("This is a string"));
         assertFalse(schema.isValid(""));
+    }
+
+    @Test
+    @Order(4)
+    public void testCumulativeChecks() {
+        StringSchema schema = validator.string();
+        schema.required().minLength(5).contains("Vadim");
+
+        assertTrue(schema.isValid("Vadim Manannikov"));
     }
 }
